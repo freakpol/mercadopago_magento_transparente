@@ -111,7 +111,9 @@ function loadFilesMP() {
                                 
                                 //mapea os erros
                                 switch (e.code) {
-                                    
+                                    case "011":
+                                        html += "Ocorreu um erro. Por favor, atualize a pagina. </br>";
+                                        break;
                                     case "E301":
                                         html += "Numero do Cart‹o inv‡lido. </br>";
                                         break;

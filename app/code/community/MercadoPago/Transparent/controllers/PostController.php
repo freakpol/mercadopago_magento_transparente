@@ -16,14 +16,6 @@
 
 class MercadoPago_Transparent_PostController extends Mage_Core_Controller_Front_Action{
     
-    /*
-    protected $_checkout = null;
-    protected $_config = null;
-    protected $_quote = false;
-    protected $_mconfigs = null;
-    protected $_model = null;*/
-    
-    
     // url-> /index.php/mpexpress/post
     public function indexAction(){
 	$msg = "";
@@ -35,18 +27,6 @@ class MercadoPago_Transparent_PostController extends Mage_Core_Controller_Front_
 
 	//chama model para fazer o post do pagamento
 	$response = Mage::getModel('mercadopago_transparent/transparent')->postPago();
-	
-	/*$response = array(
-	    "status" => 200,
-	    "response" => array(
-		"amount" => 10,
-		"installments" => 10,
-		"payment_method_id" => "master",
-		"status" => "approved",
-		"external_reference" => 100000046,
-		"status_detail" => "cc_rejected_bad_filled_card_number"
-	    )
-	);*/
 	
 	if($response['status'] == 200 || $response['status'] == 201):
 	
@@ -123,7 +103,61 @@ class MercadoPago_Transparent_PostController extends Mage_Core_Controller_Front_
 		break;
 	    }
 	else:
-	    Mage::getSingleton('core/session')->addError('Ocorreu um erro: ' . $response['response']['message']);
+	    $e = "";
+	    foreach($response['response']['cause'] as $error):
+		
+		switch ($error) {
+		    case "106":
+			$e .=  "Você não pode fazer pagamentos para usuários em outros países. <br/>";
+			break;
+		    
+		    case "109":
+			$e .=  "O meio de pagamento selecionado não processa pagamentos as parcelas selecionadas.
+Use outro cartão ou outro meio de pagamento. <br/>";
+			break;
+		    
+		    case "126":
+			$e .=  "Não foi possível processar o pagamento. <br/>";
+			break;
+		    
+		    case "129":
+			$e .=  "O meio de pagamento selecionado não processa pagamentos do valor selecionado.
+Use outro cartão ou outro meio de pagamento.. <br/>";
+			break;
+		    
+		    case "145":
+			$e .=  "Não foi possível processar o pagamento. <br/>";
+			break;
+		    
+		    case "150":
+			$e .=  "Você não pode fazer pagamentos. <br/>";
+			break;
+
+		    case "151":
+			$e .=  "Você não pode fazer pagamentos com esse meio de pagamento. <br/>";
+			break;
+		    
+		    case "160":
+			$e .=  "Não foi possível processar o pagamento. <br/>";
+			break;
+		    
+		    case "204":
+			$e .=  "O meio de pagamento selecionado não está disponível neste momento.
+Use outro cartão ou outro meio de pagamento. <br/>";
+			break;
+		    
+		    case "801":
+			$e .=  "Você realizou um pagamento similar há pouco tempo.
+Tente novamente em alguns minutos. <br/>";
+			break;
+		    
+		    default:
+			$e .=  "Não foi possível processar o pagamento. <br/>";
+			break;
+		}
+	    endforeach;
+	    
+	    Mage::getSingleton('core/session')->addError('Ocorreu um erro: <br/>' . $e);
 	endif;
 		
 	$this->loadLayout();
