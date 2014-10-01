@@ -117,7 +117,7 @@ Use outro cartão ou outro meio de pagamento. <br/>";
 			break;
 		    
 		    case "126":
-			$e .=  "Não foi possível processar o pagamento. <br/>";
+			$e .=  "Não foi possível processar o pagamento. Erro de numero: 126.<br/>";
 			break;
 		    
 		    case "129":
@@ -126,7 +126,7 @@ Use outro cartão ou outro meio de pagamento.. <br/>";
 			break;
 		    
 		    case "145":
-			$e .=  "Não foi possível processar o pagamento. <br/>";
+			$e .=  "Não foi possível processar o pagamento. Erro de numero: 145. <br/>";
 			break;
 		    
 		    case "150":
@@ -138,7 +138,7 @@ Use outro cartão ou outro meio de pagamento.. <br/>";
 			break;
 		    
 		    case "160":
-			$e .=  "Não foi possível processar o pagamento. <br/>";
+			$e .=  "Não foi possível processar o pagamento. Erro de numero: 160. <br/>";
 			break;
 		    
 		    case "204":
