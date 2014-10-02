@@ -77,8 +77,9 @@ class MercadoPago_Transparent_Model_Transparent extends Mage_Payment_Model_Metho
 
 
     public function postPago(){
-        
-        $model = $this; //Mage::getModel('mercadopago_transparent/transparent');
+	
+        //Mage::getModel('mercadopago_transparent/transparent');
+        $model = $this; 
         
         //seta sdk php mercadopago
         $this->client_id = $model->getConfigData('client_id');
@@ -200,6 +201,15 @@ class MercadoPago_Transparent_Model_Transparent extends Mage_Payment_Model_Metho
         
 	//define a url de notificacao 
 	$arr['notification_url'] = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_LINK,true) . "/mercadopago_transparent/notificacao";
+	
+	
+	//pega o email e o nome do usuario guest
+	if($arr['payer_email'] == "" && $arr['customer']['email'] == ""){
+	    $arr['payer_email'] = $order['customer_email'];
+	    $arr['customer']['email'] = $order['customer_email'];
+	    $arr['customer']['first_name'] = $order->getBillingAddress()->getFirstname();
+	    $arr['customer']['last_name'] = $order->getBillingAddress()->getLastname();
+	}
 	
         return $mp->create_custon_payment($arr);
         
