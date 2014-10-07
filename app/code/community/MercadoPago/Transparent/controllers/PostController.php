@@ -152,7 +152,7 @@ Tente novamente em alguns minutos. <br/>";
 			break;
 		    
 		    default:
-			$e .=  "Não foi possível processar o pagamento. <br/>";
+			$e .=  "Não foi possível processar o pagamento. <br/>" . json_encode($response['response']). "<br/>";
 			break;
 		}
 	    endforeach;
