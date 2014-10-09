@@ -50,7 +50,7 @@ function loadFilesMP() {
             $("#mp-form select").change(function () {
                 validCreateToken();
             });
-            
+
             
             function getBin(bin){
                 if (bin.length == 6) {
@@ -76,6 +76,13 @@ function loadFilesMP() {
 
                     if ($(this).val() == "") {
                         valid = false
+                    }else if($(this).attr('data-checkout') == 'docNumber'){
+                        if(validCpf($(this).val())){
+                            $("#status").hide();
+                        }else{
+                            valid = false;
+                            showError("CPF inválido.");
+                        }
                     }
 
                 });
@@ -133,7 +140,7 @@ function loadFilesMP() {
                                         html += "Nome do titular do cartão inválido. </br>";
                                         break;
                                     case "324":
-                                        html += "Documento inválido. </br>";
+                                        html += "CPF inválido. </br>";
                                         break;
                                     case "325":
                                         html += "Mês inválido. </br>";
@@ -158,6 +165,50 @@ function loadFilesMP() {
                         
                     });
                     
+                }
+            }
+            
+            
+            function showError(msg) {
+                $("#status .loading-mp").hide();
+                $("#status").show();
+                $("#status").addClass("msg-error");
+                $("#status .text-mp").html(msg);
+                $("#card_token_id").val("");
+            }
+            
+            function validCpf(cpf){
+                var soma;
+                var resto;
+                soma = 0;
+                if (cpf == "00000000000")
+                    return false;
+                    
+                for (i=1; i<=9; i++){
+                    soma = soma + parseInt(cpf.substring(i-1, i)) * (11 - i);
+                    resto = (soma * 10) % 11;
+                }
+                
+                if ((resto == 10) || (resto == 11))
+                    resto = 0;
+                    
+                if (resto != parseInt(cpf.substring(9, 10)) )
+                    return false;
+                    
+                soma = 0;
+                
+                for (i = 1; i <= 10; i++){
+                    soma = soma + parseInt(cpf.substring(i-1, i)) * (12 - i);
+                    resto = (soma * 10) % 11;
+                }
+                
+                if ((resto == 10) || (resto == 11))
+                    resto = 0;
+                
+                if (resto != parseInt(cpf.substring(10, 11))){
+                    return false;
+                }else{
+                    return true;    
                 }
             }
             

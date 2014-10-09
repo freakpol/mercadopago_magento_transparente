@@ -4,8 +4,11 @@
  *
  */
 
-.form-mercadopago{
-    padding: 10px 0 0 0 !important;
+.sp-methods .form-list.mercadopago{
+    padding:0 !important;
+}
+.sp-methods .form-list.form-mercadopago{
+    padding:0 !important;
 }
 
 .banner_checkout_mp{
@@ -21,6 +24,7 @@
 .box-mes{
     width: 160px;
     float: left;
+    margin: 0 10px 0 0;
 }
 
 .box-mes select{
@@ -29,7 +33,6 @@
 .box-ano{
     width: 135px;
     float: left;
-    margin: 0 0 0 10px;
 }
 
 .box-ano select{
@@ -42,6 +45,9 @@
     margin: 10px 0 0 0;
 }
 
+#installments{
+    margin: 0 0 5px 0;
+}
 #status{
     float: left;
     margin: 10px 0 0 0;
@@ -145,14 +151,7 @@
     font-size: 20px;
 }
 
-
-
-
-
 /*
- *
- *
- *
  *
  *
  */
@@ -161,3 +160,51 @@
     width: 100%;
     float: left;
 }
+
+
+@media screen and (max-width: 500px) {
+    .banner_checkout_mp{
+        width: 100%;
+        margin: 0 0 5px 0;
+    }
+    
+    .box-mes {
+        width: 100%;
+    }
+    
+    .box-ano{
+        width: 100%;
+        margin: 10px 0 0 0;
+    }
+    
+    .box-mes select{
+        width: 50%;
+    }
+    .box-ano select{
+        width: 50%;
+    }
+
+    #mercadopago_transparent_doc {
+        width: 50%;
+    }
+    
+    #status{
+        margin: 0 0 10px 0;
+    }
+    
+    iframe#checkout_mercadopago{
+        float: left;
+        width: 100% !important;
+    }
+    
+    .form-list.mercadopago{
+        float: left;
+        min-width: 100%;
+        width: 100%;
+        margin: 0 15px 0 0px;
+    }
+}
+
+
+
+

@@ -1,13 +1,12 @@
-
-<fieldset class="form-list">
+<fieldset class="form-list mercadopago">
     <link rel="stylesheet" href="<?php echo $this->getSkinUrl('mercadopago/css/style.css'); ?>" />
-    
-    <?php $_code = $this->getMethodCode(); ?>
-    <?php $_country = $this->getMethodCountry(); ?>
 
     <?php if($this->getMethod()->getConfigData('banner_checkout') != ""): ?>
         <img src="<?php echo $this->getMethod()->getConfigData('banner_checkout'); ?>"  class="banner_checkout_mp"/>
     <?php endif;?>
+
+    <?php $_code = $this->getMethodCode(); ?>
+    <?php $_country = $this->getMethodCountry(); ?>
     
     <script>
         //load nas actions para funcionar o js do mercadopago
@@ -19,7 +18,7 @@
             <li>
                 <label for="<?php echo $_code ?>_cn" class="required"><em>*</em>Número do cartão</label>
                 <div class="input-box">
-                    <input data-checkout="cardNumber" id="<?php echo $_code ?>_cn" type="text" class="input-text required-entry validate-digits"/>
+                    <input data-checkout="cardNumber" id="<?php echo $_code ?>_cn" type="text" class="input-text required-entry"/>
                     <div id="img_payment_method"></div>
                 </div>
             </li>
@@ -63,7 +62,7 @@
                 <div class="box-input">
                     <label for="<?php echo $_code ?>_doc" class="required"><em>*</em>CPF</label>
                     <div class="input-box">
-                        <input name="payment[doc_number]" data-checkout="docNumber" id="<?php echo $_code ?>_doc" type="text" class="input-text required-entry validate-digits" type="text" maxlength="11"/>
+                        <input name="payment[doc_number]" data-checkout="docNumber" id="<?php echo $_code ?>_doc" type="text" class="input-text required-entry validate-digits" type="text" maxlength="11" />
                     </div>
                 </div>
             </li>
@@ -106,5 +105,4 @@
 
         
     </div>
-
 </fieldset>
