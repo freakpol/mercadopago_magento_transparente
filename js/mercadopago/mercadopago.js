@@ -89,14 +89,14 @@ function loadFilesMP() {
                 
                 if (valid) {
                     //reset
-                    $("#status").removeClass("msg-alert");
-                    $("#status").removeClass("msg-success");
+                    //$("#status").removeClass("msg-alert");
+                    //$("#status").removeClass("msg-success");
                     $("#status").removeClass("msg-error");
                     
                     //add msg e mostra o loading
                     $("#status").show();
                     $("#status .loading-mp").show();
-                    $("#status").addClass("msg-alert");
+                    //$("#status").addClass("msg-alert");
                     $("#status .text-mp").html('Validando dados...');
                     
                     
@@ -109,8 +109,9 @@ function loadFilesMP() {
                         if (status == 200  || status == 201) {
                             $("#status .status-mp").hide();
                             $("#card_token_id").val(response.id);
-                            $("#status").addClass("msg-success");
-                            html = "Dados validados.";
+                            $("#status").hide();
+                            //$("#status").addClass("msg-success");
+                            //html = "Dados validados.";
                         }else{
                             
                             $.each(response.cause, function(p, e){
@@ -148,11 +149,11 @@ function loadFilesMP() {
                             
                             
                             $("#status").addClass("msg-error");
+                            $("#status .text-mp").html(html);
                             $("#card_token_id").val("");
                         }
                         
-                        //mostra mensagem de ok e esconde loading
-                        $("#status .text-mp").html(html);
+                        //esconde loading
                         $("#status .loading-mp").hide();
                         
                     });
