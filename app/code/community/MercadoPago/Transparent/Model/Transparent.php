@@ -60,7 +60,7 @@ class MercadoPago_Transparent_Model_Transparent extends Mage_Payment_Model_Metho
         
         //verifica se o pagamento não é boleto, caso seja não tem card_token_id
         if($info_form['payment_method'] != "bolbradesco" && $info_form['card_token_id'] == ""):
-	    Mage::throwException('Corrija os dados do formulario de pagamento para prosseguir.');
+	    Mage::throwException('Corrija os dados do formulario de pagamento para prosseguir ou Aguarde a validação dos dados de pagamento.');
 	    return false;
 	endif;
 	
