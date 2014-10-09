@@ -116,6 +116,13 @@ class MercadoPago_Transparent_NotificacaoController extends Mage_Core_Controller
 		    case 'opened':
 			$message = 'Payment flow started. The order still dont have payments recorded.';           
 			$status = $model->getConfigData('order_status_in_process');
+			
+			$message .= "<br /> Merchant Order: " . $merchant_order['id'];
+			$message .= "<br /> Status: " . $merchant_order['status'];
+			
+			$order->addStatusToHistory($status,$message);
+			$order->save();
+			echo $message;
 			break;
 		    
 		    /*
@@ -133,12 +140,6 @@ class MercadoPago_Transparent_NotificacaoController extends Mage_Core_Controller
 		    */ 
 		}
 		
-		$message .= "<br /> Merchant Order: " . $merchant_order['id'];
-		$message .= "<br /> Status: " . $merchant_order['status'];
-		
-		$order->addStatusToHistory($status,$message);
-		$order->save();
-		echo $message;
 	    else: 
 		//caso de algum erro na consulta da ipn
 		header(' ', true, 404);
