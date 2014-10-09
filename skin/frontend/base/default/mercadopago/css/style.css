@@ -5,7 +5,16 @@
  */
 
 .form-mercadopago{
-    padding: 10px 0 0 0 ;
+    padding: 10px 0 0 0 !important;
+}
+
+.banner_checkout_mp{
+    
+}
+
+#img_payment_method{
+    float: left;
+    margin: 5px 0 0 0;    
 }
 
 .box-mes{
@@ -34,11 +43,11 @@
 
 #status{
     float: left;
-    width: 100%;
     margin: 10px 0 0 0;
-    padding: 15px;
+    width: 100%;
     border: 1px solid transparent;
     border-radius: 4px;
+    display: none;
 }
 
 #status.msg-alert{
@@ -57,6 +66,21 @@
     color: #a94442;
     background-color: #f2dede;
     border-color: #ebccd1;
+}
+
+#status .box{
+    float: left;
+    width: 100%;
+    padding: 15px;
+}
+
+#status .loading-mp{
+    float: left;
+    margin: 0 10px 0 0;
+}
+
+#status .text-mp{
+    float: left;
 }
 
 #mercadopago_transparent_doc{
@@ -118,4 +142,21 @@
     line-height: 1.25em;
     padding: 6px 12px;
     font-size: 20px;
+}
+
+
+
+
+
+/*
+ *
+ *
+ *
+ *
+ *
+ */
+
+#standard_banner_checkout{
+    width: 100%;
+    float: left;
 }

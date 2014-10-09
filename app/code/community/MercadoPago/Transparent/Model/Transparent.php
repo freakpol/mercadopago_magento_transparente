@@ -71,24 +71,30 @@ class MercadoPago_Transparent_Model_Transparent extends Mage_Payment_Model_Metho
     public function getOrderPlaceRedirectUrl() {
         
         // requisicao vem da pagina de finalizacao de pedido
-        return Mage::getUrl('mercadopago_transparent/post', array('_secure' => true));
+        return Mage::getUrl('mercadopago_transparent/pay', array('_secure' => true));
     
     }
 
 
-    public function postPago(){
-	
-        //Mage::getModel('mercadopago_transparent/transparent');
-        $model = $this; 
+    public function postPago(){ 
         
         //seta sdk php mercadopago
-        $this->client_id = $model->getConfigData('client_id');
-        $this->client_secret = $model->getConfigData('client_secret');
-        $mp = new MP($this->client_id, $this->client_secret);
-        
-	$accessToken = $mp->get_access_token();
+        $client_id = $this->getConfigData('client_id');
+        $client_secret = $this->getConfigData('client_secret');
+        $mp = new MP($client_id, $client_secret);
 	
-        //pega a order atual
+	//monta a preferencia
+	$pref = $this->makePreference();
+	
+	//faz o post do pagamento
+        return $mp->create_custon_payment($pref);
+        
+    }
+    
+    
+    function makePreference(){
+	
+	//pega a order atual
         $orderIncrementId = Mage::getSingleton('checkout/session')->getLastRealOrderId();
         $order = Mage::getModel('sales/order')->loadByIncrementId($orderIncrementId);
         $customer = Mage::getSingleton('customer/session')->getCustomer();
@@ -111,7 +117,7 @@ class MercadoPago_Transparent_Model_Transparent extends Mage_Payment_Model_Metho
         $arr = array();
         $arr['external_reference'] = $orderIncrementId;
         $arr['amount'] = (float) $item_price;
-        $arr['reason'] = "Pedido #12124 realizado na loja localhost";
+        $arr['reason'] = "Pedido #" . $orderIncrementId . " realizado na loja " . Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_LINK,true);
         $arr['currency_id'] = "BRL";
         $arr['installments'] = (int) $payment['additional_information']['installments'];
         $arr['payment_method_id'] = $payment['additional_information']['payment_method'];
@@ -157,13 +163,11 @@ class MercadoPago_Transparent_Model_Transparent extends Mage_Payment_Model_Metho
         if(method_exists($order->getShippingAddress(), "getData")){
             $shipping = $order->getShippingAddress()->getData();
             $arr['shipments']['receiver_address'] = array(
-                "receiver_address" => array(
-                    "floor" => "-",
-                    "zip_code" => $shipping['postcode'],
-                    "street_name" => $shipping['street'] . " - " . $shipping['city'] . " - " . $shipping['country_id'],
-                    "apartment" => "-",
-                    "street_number" => "-"
-                )
+		"floor" => "-",
+		"zip_code" => $shipping['postcode'],
+		"street_name" => $shipping['street'] . " - " . $shipping['city'] . " - " . $shipping['country_id'],
+		"apartment" => "-",
+		"street_number" => "0"
             );
             $arr['customer']['phone'] = array(
                 "area_code" => "-",
@@ -196,12 +200,11 @@ class MercadoPago_Transparent_Model_Transparent extends Mage_Payment_Model_Metho
         $arr['customer']['address'] = array(
             "zip_code" => $billing_address['postcode'],
             "street_name" => $billing_address['street'] . " - " . $billing_address['city'] . " - " . $billing_address['country_id'],
-            "street_number" => "-"
+            "street_number" => "0"
         );
         
 	//define a url de notificacao 
-	$arr['notification_url'] = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_LINK,true) . "/mercadopago_transparent/notificacao";
-	
+	$arr['notification_url'] = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_LINK,true) . "mercadopago_transparent/notificacao";
 	
 	//pega o email e o nome do usuario guest
 	if($arr['payer_email'] == "" && $arr['customer']['email'] == ""){
@@ -211,10 +214,9 @@ class MercadoPago_Transparent_Model_Transparent extends Mage_Payment_Model_Metho
 	    $arr['customer']['last_name'] = $order->getBillingAddress()->getLastname();
 	}
 	
-        return $mp->create_custon_payment($arr);
-        
+	return $arr;
+	
     }
-    
     
     public function getPayment($payment_id){
 	$model = $this;
@@ -222,6 +224,14 @@ class MercadoPago_Transparent_Model_Transparent extends Mage_Payment_Model_Metho
         $this->client_secret = $model->getConfigData('client_secret');
         $mp = new MP($this->client_id, $this->client_secret);
 	return $mp->get_payment($payment_id);
+    }
+    
+    public function getMerchantOrder($merchant_order_id){
+	$model = $this;
+	$this->client_id = $model->getConfigData('client_id');
+        $this->client_secret = $model->getConfigData('client_secret');
+        $mp = new MP($this->client_id, $this->client_secret);
+	return $mp->get_merchant_order($merchant_order_id);
     }
     
 }

@@ -28,9 +28,9 @@ function loadFilesMP() {
         jQuery(document).ready(function ($) {
             
             //hide loading
-            $("#status .loading-mp").hide();
+            $("#status").hide();
             
-            //caso o cartão copie e cole
+            //caso o cart√£o copie e cole
             $("input[data-checkout='cardNumber']").focusout(function () {
                 var card = $(this).val().replace(/ /g, '').replace(/-/g, '').replace(/\./g, '');
                 var bin = card.substr(0,6);
@@ -68,7 +68,7 @@ function loadFilesMP() {
             }
             
             function validCreateToken(){
-                        
+                
                 var valid = true;
                 
                 //verifica os elementos "input"
@@ -88,10 +88,16 @@ function loadFilesMP() {
                 });
                 
                 if (valid) {
+                    //reset
+                    $("#status").removeClass("msg-alert");
+                    $("#status").removeClass("msg-success");
+                    $("#status").removeClass("msg-error");
+                    
                     //add msg e mostra o loading
-                    $("#status .status-mp").show();
-                    $("#status .text-mp").html('Validando dados...');
+                    $("#status").show();
+                    $("#status .loading-mp").show();
                     $("#status").addClass("msg-alert");
+                    $("#status .text-mp").html('Validando dados...');
                     
                     
                     var $form = $("#mp-form");
@@ -104,7 +110,7 @@ function loadFilesMP() {
                             $("#status .status-mp").hide();
                             $("#card_token_id").val(response.id);
                             $("#status").addClass("msg-success");
-                            html = "Dados validados!";
+                            html = "Dados validados.";
                         }else{
                             
                             $.each(response.cause, function(p, e){
@@ -115,24 +121,24 @@ function loadFilesMP() {
                                         html += "Ocorreu um erro. Por favor, atualize a pagina. </br>";
                                         break;
                                     case "E301":
-                                        html += "Numero do Cartão inválido. </br>";
+                                        html += "Numero do Cart√£o inv√°lido. </br>";
                                         break;
                                     
                                     case "E302":
-                                        html += "Código de Segurança inválido. </br>";
+                                        html += "C√≥digo de Seguran√ßa inv√°lido. </br>";
                                         break;
                                     
                                     case "316":
-                                        html += "Nome do titular do cartão inválido. </br>";
+                                        html += "Nome do titular do cart√£o inv√°lido. </br>";
                                         break;
                                     case "324":
-                                        html += "Documento inválido. </br>";
+                                        html += "Documento inv√°lido. </br>";
                                         break;
                                     case "325":
-                                        html += "Mês inválido. </br>";
+                                        html += "M√™s inv√°lido. </br>";
                                         break;
                                     case "326":
-                                        html += "Ano inválido. </br>";
+                                        html += "Ano inv√°lido. </br>";
                                         break;
                                     default:
                                         html += "Dados incorretos, valide os dados. Por favor. <br/>"
@@ -147,6 +153,7 @@ function loadFilesMP() {
                         
                         //mostra mensagem de ok e esconde loading
                         $("#status .text-mp").html(html);
+                        $("#status .loading-mp").hide();
                         
                     });
                     

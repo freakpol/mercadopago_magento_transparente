@@ -64,7 +64,7 @@ class MercadoPago_TransparentBoleto_Model_Transparent extends Mage_Payment_Model
     public function getOrderPlaceRedirectUrl() {
         
         // requisicao vem da pagina de finalizacao de pedido
-        return Mage::getUrl('mercadopago_transparent/post', array('_secure' => true));
+        return Mage::getUrl('mercadopago_transparent/pay', array('_secure' => true));
     
     }
     

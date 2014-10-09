@@ -23,7 +23,7 @@ class MercadoPago_Transparent_Block_Form extends Mage_Payment_Block_Form_Cc{
         // inicia formulario para a escolha de pagamento
         parent::_construct();
         
-        $this->setTemplate('mercadopago_transparent/form.phtml');
+        $this->setTemplate('mercadopago/transparent/form.phtml');
         
     }
     

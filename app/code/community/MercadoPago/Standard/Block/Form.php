@@ -15,7 +15,7 @@
 */
 
 
-class MercadoPago_TransparentBoleto_Block_Form extends Mage_Payment_Block_Form_Cc{
+class MercadoPago_Standard_Block_Form extends Mage_Payment_Block_Form_Cc{
     
     protected function _construct(){
         
@@ -23,7 +23,7 @@ class MercadoPago_TransparentBoleto_Block_Form extends Mage_Payment_Block_Form_C
         // inicia formulario para a escolha de pagamento
         parent::_construct();
         
-        $this->setTemplate('mercadopago/transparent_boleto/form.phtml');
+        $this->setTemplate('mercadopago/standard/form.phtml');
         
     }
 }

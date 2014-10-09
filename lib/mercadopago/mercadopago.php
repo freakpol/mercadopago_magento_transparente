@@ -49,6 +49,21 @@ class MP {
     }
 
     /**
+     * Get information for specific merchant_order
+     * @param int $id
+     * @return array(json)
+     */
+    
+    public function get_merchant_order($id){
+     
+        $access_token = $this->get_access_token();
+            
+        $merchant_order = MPRestClient::get("/merchant_orders/" . $id . "?access_token=" . $access_token);
+        
+        return $merchant_order;
+    }
+    
+    /**
      * Get information for specific payment
      * @param int $id
      * @return array(json)
