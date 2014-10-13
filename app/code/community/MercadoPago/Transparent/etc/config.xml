@@ -70,7 +70,7 @@
                 <active>1</active>
                 <model>MercadoPago_Transparent_Model_Transparent</model>
                 <!-- nome do modulo na exibição para o comprador -->
-                <title>MercadoPago</title>
+                <title>Cartões de Credito - MercadoPago</title>
                 <allowspecific>0</allowspecific>
                 <order_status_approved>processing</order_status_approved>
                 <order_status_refunded>pending</order_status_refunded>

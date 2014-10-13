@@ -60,7 +60,7 @@
                 <active>1</active>
                 <model>MercadoPago_TransparentBoleto_Model_Transparent</model>
                 <!-- nome do modulo na exibição para o comprador -->
-                <title>MercadoPago - Boleto</title>
+                <title>Boleto - MercadoPago</title>
                 <allowspecific>0</allowspecific>
                 <banner_checkout>https://secure.mlstatic.com/components/resources/mp/desktop/css/assets/desktop-logo-mercadopago.png</banner_checkout>
                 <sort_order>-1</sort_order>
