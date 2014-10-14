@@ -62,7 +62,7 @@
                 <!-- nome do modulo na exibição para o comprador -->
                 <title>Boleto - MercadoPago</title>
                 <allowspecific>0</allowspecific>
-                <banner_checkout>https://secure.mlstatic.com/components/resources/mp/desktop/css/assets/desktop-logo-mercadopago.png</banner_checkout>
+                <banner_checkout>http://imgmp.mlstatic.com/org-img/MLB/MP/BANNERS/2014/230x60.png</banner_checkout>
                 <sort_order>-1</sort_order>
             </mercadopago_transparentboleto>
         </payment>
