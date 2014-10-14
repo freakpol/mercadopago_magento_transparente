@@ -1,5 +1,9 @@
-mercadopago_magento_transparente
+MercadoPago Magento Transparent & Standard
 ================================
 
 
-Modulo em desenvolvimento
+## Installation:
+
+1. Copy the folders **app**, **js**, **lib** and **skin** to the Magento root installation. Make sure to keep the Magento folders structure intact.
+2. In your admin go to **System > Cache Management** and clear all caches.
+3. Go to **System>IndexManagement** and select all fields. Then click in **Reindex Data**.
