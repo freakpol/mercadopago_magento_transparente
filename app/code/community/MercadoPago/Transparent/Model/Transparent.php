@@ -138,14 +138,12 @@ class MercadoPago_Transparent_Model_Transparent extends Mage_Payment_Model_Metho
                 $prod = $model->loadByAttribute('sku', $item->getSku());
             }
 
-            //get methods and each find getImage
-            $imagem = "";
-            $methods = get_class_methods($prod);
-            foreach($methods as $method):
-                if($method == "getImageUrl"):
-                    $imagem = $prod->getImageUrl();
-                endif;
-            endforeach;
+            //get image
+	    try{
+		$imagem = $prod->getImageUrl();
+	    }catch(Exception $e){
+		$imagem = "";
+	    }
             
             $arr['items'][] = array(
                 "id" => $item->getSku(),
