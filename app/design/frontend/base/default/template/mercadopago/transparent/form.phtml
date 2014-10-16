@@ -1,10 +1,6 @@
 <fieldset class="form-list mercadopago">
     <link rel="stylesheet" href="<?php echo $this->getSkinUrl('mercadopago/css/style.css'); ?>" />
 
-    <?php if($this->getMethod()->getConfigData('banner_checkout') != ""): ?>
-        <img src="<?php echo $this->getMethod()->getConfigData('banner_checkout'); ?>"  class="banner_checkout_mp"/>
-    <?php endif;?>
-
     <?php $_code = $this->getMethodCode(); ?>
     <?php $_country = $this->getMethodCountry(); ?>
     
@@ -100,6 +96,10 @@
                 <input type="hidden" data-checkout="docType" type="text" value="CPF"/>
                 <input type="hidden" name="payment[card_token_id]" type="text" value="" id="card_token_id" />
                 <input type="hidden" name="payment[payment_method]" type="text" value="" id="payment_method" />
+                
+                <?php if($this->getMethod()->getConfigData('banner_checkout') != ""): ?>
+                    <img src="<?php echo $this->getMethod()->getConfigData('banner_checkout'); ?>"  class="banner_checkout_mp"/>
+                <?php endif;?>
             </li>
         </ul>
 
