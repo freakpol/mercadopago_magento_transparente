@@ -50,34 +50,34 @@ class MercadoPago_Transparent_NotificacaoController extends Mage_Core_Controller
     
 		    case 'approved':
 			// Geração não automática de invoice    
-			$message = 'MercadoPago automatically confirmed payment for this order.';           
+			$message = 'Notificação automática do MercadoPago: O pagamento foi aprovado.';
 			$status = $model->getConfigData('order_status_approved');
 			break;
 		    case 'refunded':
 			$status = $model->getConfigData('order_status_refunded');
-			$message = 'Payment was refound. The vendor returned the values ​​of this operation.';	
+			$message = 'Notificação automática do MercadoPago: O pagamento foi devolvido.';	
 			$order->cancel();
 			break;
 		    case 'pending':
 			$status = $model->getConfigData('order_status_in_process');
-			$message = 'The user has not completed the payment process yet.';
+			$message = 'Notificação automática do MercadoPago: O pagamento está sendo processado.';
 			break;
 		    case 'in_process':
 			$status = $model->getConfigData('order_status_in_process');
-			$message = 'The payment is been analysing.';
+			$message = 'Notificação automática do MercadoPago: O pagamento está sendo processado. Em até 2 dias úteis o pagamento será analisado.';
 			break;
 		    case 'in_mediation':
 			$status = $model->getConfigData('order_status_in_mediation');
-			$message = 'It started a dispute for the payment.';
+			$message = 'Notificação automática do MercadoPago: O pagamento está em processo de Disputa, verifique a conta gráfica do MercadoPago para maiores informações.';
 			break;
 		    case 'cancelled':              
 			$status = $model->getConfigData('order_status_cancelled');
-			$message = 'Payment was canceled.';
+			$message = 'Notificação automática do MercadoPago: O pagamento foi cancelado.';
 			$order->cancel();
 			break;
 		    case 'rejected':              
 			$status = $model->getConfigData('order_status_rejected');
-			$message = 'Payment was Reject.';
+			$message = 'Notificação automática do MercadoPago: O pagamento foi rejeitado.';
 			break;
 		    default:
 			$status = $model->getConfigData('order_status_in_process');
