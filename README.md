@@ -12,4 +12,4 @@ MercadoPago Magento Transparent & Standard
 ## Setup MercadoPago
 
 
-To request your **public key** send an email to **![developers@mercadopago.com.br](developers@mercadopago.com.br)**
+To request your **public key** send an email to **[developers@mercadopago.com.br](developers@mercadopago.com.br)**
