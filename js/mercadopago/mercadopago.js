@@ -116,6 +116,7 @@ function loadFilesMP() {
                         if (status == 200  || status == 201) {
                             $("#status .status-mp").hide();
                             $("#card_token_id").val(response.id);
+                            $("#trunc_card").val(response.trunc_card_number);
                             $("#status").hide();
                             //$("#status").addClass("msg-success");
                             //html = "Dados validados.";
