@@ -35,7 +35,12 @@ class MercadoPago_Transparent_NotificacaoController extends Mage_Core_Controller
 		$payment = $response['response']['collection'];
 		$order = Mage::getModel('sales/order')->loadByIncrementId($payment["external_reference"]);
 		
-	
+		//update info de status no pagamento
+		$payment_order = $order->getPayment();
+		$payment_order->setAdditionalInformation('status',$payment['status']);
+		$payment_order->setAdditionalInformation('status_detail',$payment['status_detail']);
+		$payment_order->save();
+		
 		//adiciona informações sobre o comprador na order	
 		if ($payment['payer']['first_name'])
 		    $order->setCustomerFirstname($payment['payer']['first_name']);

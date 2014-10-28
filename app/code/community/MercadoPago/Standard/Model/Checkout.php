@@ -84,12 +84,7 @@ class MercadoPago_Standard_Model_Checkout extends Mage_Payment_Model_Method_Abst
         $arr['items'] = array();
         foreach ($order->getAllVisibleItems() as $item) {
 
-            if (strpos($item->getSku(), '-') !== false) {
-                $skus = explode("-", $item->getSku());
-                $prod = $model->loadByAttribute('sku', $skus[0]);
-            } else {
-                $prod = $model->loadByAttribute('sku', $item->getSku());
-            }
+            $prod = $model->loadByAttribute('sku', $item->getSku());
 
             //get image
 	    try{
@@ -199,6 +194,9 @@ class MercadoPago_Standard_Model_Checkout extends Mage_Payment_Model_Method_Abst
         if($auto_return == 1){
             $arr['auto_return'] = "approved";
         }
+	
+	//adiciona o sponsor_id para as vendas serem identificadas
+	//$arr['sponsor_id'] = "";
 	
 	return $arr;
 	
