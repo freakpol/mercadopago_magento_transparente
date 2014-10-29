@@ -33,7 +33,7 @@ class MercadoPago_Transparent_NotificacaoController extends Mage_Core_Controller
 		$message = "";
 		$status = "";
 		$payment = $response['response']['collection'];
-		print_r($payment);
+		
 		$order = Mage::getModel('sales/order')->loadByIncrementId($payment["external_reference"]);
 		
 		//update info de status no pagamento
