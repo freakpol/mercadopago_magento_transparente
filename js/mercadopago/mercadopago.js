@@ -58,7 +58,7 @@ function loadFilesMP() {
                         var method_payment = result[0];
                         
                         //adiciona a imagem do meio de pagamento
-                        $("#img_payment_method").html('<img src="' + method_payment.thumbnail + '">')
+                        $("#img_payment_method").html('<img src="' + method_payment.secure_thumbnail + '">')
                         $("#payment_method").val(method_payment.id);
                         
                         //lista parcelas
