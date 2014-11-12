@@ -78,9 +78,19 @@ class MercadoPago_Transparent_NotificacaoController extends Mage_Core_Controller
 		switch ( $payment['status']) {
     
 		    case 'approved':
-			// Geração não automática de invoice    
+			//add status na order
 			$message = 'Notificação automática do MercadoPago: O pagamento foi aprovado.';
 			$status = $model->getConfigData('order_status_approved');
+			
+			//cria a invoice
+			$invoice = $order->prepareInvoice();
+                        $invoice->register()->pay();
+                        Mage::getModel('core/resource_transaction')
+                            ->addObject($invoice)
+                            ->addObject($invoice->getOrder())
+                            ->save();
+
+                        $invoice->sendEmail(true, $message);
 			break;
 		    case 'refunded':
 			$status = $model->getConfigData('order_status_refunded');
