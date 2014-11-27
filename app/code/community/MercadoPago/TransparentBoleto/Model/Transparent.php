@@ -59,10 +59,10 @@ class MercadoPago_TransparentBoleto_Model_Transparent extends Mage_Payment_Model
         $info_form = $data->getData();
         
         $info = $this->getInfoInstance();
-        $info->setAdditionalInformation('card_token_id',$info_form['card_token_id']);
-        $info->setAdditionalInformation('payment_method',$info_form['payment_method_boleto']);
-        $info->setAdditionalInformation('installments',$info_form['installments']);
-        $info->setAdditionalInformation('doc_number',$info_form['doc_number']);
+        $info->setAdditionalInformation('payment_method', $info_form['payment_method_boleto']);
+        $info->setAdditionalInformation('card_token_id', "");
+	$info->setAdditionalInformation('installments', 1);
+        $info->setAdditionalInformation('doc_number', "");
         
         
         return $this;
