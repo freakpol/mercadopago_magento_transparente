@@ -59,7 +59,7 @@
                     <label for="<?php echo $_code ?>_doc" class="required"><em>*</em><?php echo $this->__('Document Number'); ?></label>
                     <div class="input-box">
                         <?php
-                        $country= Mage::getModel('mercadopago_transparent/transparent')->getConfigData('country');
+                        $country= Mage::getStoreConfig('payment/mercadopago_configuration/country');
                         if( $country == 'mlb'): ?>
                             <input type="hidden" data-checkout="docType" id="docType" type="text" value="CPF"/>
                         <?php elseif($country == 'mla'): ?>
