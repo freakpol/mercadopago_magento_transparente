@@ -112,3 +112,4 @@
 "<br/> Payment id: %s","<br/> Número de Pago: %s"
 "<br/> Status: %s","<br/> Estado: %s"
 "<br/> Status Detail: %s","<br/> Detalle del Estado: %s"
+"Order # %s in store %s","Orden # %s realizada en %s"

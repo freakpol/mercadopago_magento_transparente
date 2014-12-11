@@ -247,7 +247,7 @@ class MercadoPago_Transparent_Model_Transparent extends Mage_Payment_Model_Metho
         $arr = array();
         $arr['external_reference'] = $orderId;
         $arr['amount'] = (float) $item_price;
-        $arr['reason'] = "Pedido #" . $orderIncrementId . " realizado na loja " . Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_LINK,true);
+        $arr['reason'] = Mage::helper('mercadopago_transparent')->__("Order # %s in store %s", $orderId, Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_LINK,true));
         //não é necessario settar currency_id, pois ja identifica no backend
 	//$arr['currency_id'] = "BRL";
         $arr['installments'] = (int) $payment->getAdditionalInformation("installments");
