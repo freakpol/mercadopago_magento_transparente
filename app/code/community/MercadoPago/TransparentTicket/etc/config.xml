@@ -91,7 +91,7 @@
                 <active>1</active>
                 <model>MercadoPago_TransparentTicket_Model_Transparent</model>
                 <!-- nome do modulo na exibição para o comprador -->
-                <title translate="label">Boleto - MercadoPago</title>
+                <title translate="label">Ticket - MercadoPago</title>
                 <allowspecific>0</allowspecific>
                 <banner_checkout>http://imgmp.mlstatic.com/org-img/MLB/MP/BANNERS/2014/230x60.png</banner_checkout>
                 <sort_order>-1</sort_order>
