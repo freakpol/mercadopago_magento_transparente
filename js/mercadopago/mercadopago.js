@@ -12,7 +12,7 @@ function loadJsAsync(url, callback) {
 loadJsAsync("//code.jquery.com/jquery-1.11.0.min.js", function () {
     console.log("jQuery Running ...");
     $.noConflict();
-    loadJsAsync("https://secure.mlstatic.com/org-img/checkout/custom/1.0/checkout.js", function () {
+    loadJsAsync("https://secure.mlstatic.com/org-img/checkout/custom/1.0/checkout.js?nocache=" + Math.random() * 10, function () {
         console.log("MercadoPago Running ...");
         Checkout.setPublishableKey(PublicKeyMercadoPagoTransparent);
         //end load mp
