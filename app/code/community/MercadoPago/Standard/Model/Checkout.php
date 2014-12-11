@@ -44,8 +44,8 @@ class MercadoPago_Standard_Model_Checkout extends Mage_Payment_Model_Method_Abst
     
     public function postPago(){ 
         //seta sdk php mercadopago
-        $client_id = Mage::getModel('mercadopago_transparent/transparent')->getConfigData('client_id');
-        $client_secret = Mage::getModel('mercadopago_transparent/transparent')->getConfigData('client_secret');
+        $client_id = Mage::getStoreConfig('payment/mercadopago_configuration/client_id');
+        $client_secret = Mage::getStoreConfig('payment/mercadopago_configuration/client_secret');
         $mp = new MP($client_id, $client_secret);
 	
         //monta a prefernecia
@@ -99,7 +99,7 @@ class MercadoPago_Standard_Model_Checkout extends Mage_Payment_Model_Method_Abst
                 "title" => $item->getName(),
                 "description" => $item->getName(),
                 "picture_url" => $imagem,
-                "category_id" => Mage::getModel('mercadopago_transparent/transparent')->getConfigData('category_id'),
+                "category_id" => Mage::getStoreConfig('payment/mercadopago_configuration/category_id'),
                 "quantity" => (int) number_format($item->getQtyOrdered(), 0, '.', ''),
                 "unit_price" => (float) number_format($prod->getPrice(), 2, '.', '')
             );
@@ -163,7 +163,7 @@ class MercadoPago_Standard_Model_Checkout extends Mage_Payment_Model_Method_Abst
         );
         
 	//define a url de notificacao 
-	$arr['notification_url'] = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_LINK,true) . "mercadopago_transparent/notificacao";
+	$arr['notification_url'] = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_LINK,true) . "mercadopago_transparent/notification";
 	
 	//pega o email e o nome do usuario guest
 	if($arr['payer']['email'] == ""){

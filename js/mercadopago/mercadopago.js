@@ -30,6 +30,22 @@ function loadFilesMP() {
             //hide loading
             $("#status").hide();
             
+            //caso tenha alteração no campo de banco
+            $("#issuers").change(function(){
+                
+                //pega o bin
+                var card = $("input[data-checkout='cardNumber']").val().replace(/ /g, '').replace(/-/g, '').replace(/\./g, '');
+                var bin = card.substr(0,6);
+                
+                //verifica installments para o banco, pode ocorrer de ter desconto
+                Checkout.getInstallmentsByIssuerId(
+                    bin,
+                    this.value,
+                    parseFloat($("#amount").val()),
+                    setInstallmentInfo
+                );
+            });
+            
             //caso o cartão copie e cole
             $("input[data-checkout='cardNumber']").focusout(function () {
                 var card = $(this).val().replace(/ /g, '').replace(/-/g, '').replace(/\./g, '');
@@ -62,10 +78,12 @@ function loadFilesMP() {
                         $("#payment_method").val(method_payment.id);
                         
                         //lista parcelas
-                        Checkout.getInstallments(method_payment.id ,parseFloat($("#amount").val()), setInstallmentInfo);
+                        Checkout.getInstallments(method_payment.id, parseFloat($("#amount").val()), setInstallmentInfo);
+                        Checkout.getCardIssuers(method_payment.id, showIssuers);
                     });
                 }
             }
+        
             
             function validCreateToken(){
                 
@@ -77,11 +95,18 @@ function loadFilesMP() {
                     if ($(this).val() == "") {
                         valid = false
                     }else if($(this).attr('data-checkout') == 'docNumber'){
-                        if(validCpf($(this).val())){
-                            $("#status").hide();
-                        }else{
-                            valid = false;
-                            showError("CPF inválido.");
+                        
+                        //caso o documento seja CPF, faz a validação em um função especifica
+                        if($("#docType").val() == "CPF"){
+                            if(validCpf($(this).val())){
+                                $("#status").hide();
+                            }else{
+                                valid = false;
+                                //hide all msg status
+                                $(".msg-status").hide();
+                                $(".error-324").show();
+                                showError();
+                            }
                         }
                     }
 
@@ -95,86 +120,71 @@ function loadFilesMP() {
                 });
                 
                 if (valid) {
-                    //reset
-                    //$("#status").removeClass("msg-alert");
-                    //$("#status").removeClass("msg-success");
+                    
+                    //hide all msg status
+                    $(".msg-status").hide();
+                    
+                    //remove erro class
                     $("#status").removeClass("msg-error");
                     
                     //add msg e mostra o loading
                     $("#status").show();
                     $("#status .loading-mp").show();
-                    //$("#status").addClass("msg-alert");
-                    $("#status .text-mp").html('Validando dados...');
+                    
+                    //show span loading
+                    $("#status .text-mp .msg-loading").show();
                     
                     
                     var $form = $("#mp-form");
 
                     Checkout.createToken($form, function (status, response) {
                         removeClass();
-                        console.log(status, response)
                         var html = ""
                         if (status == 200  || status == 201) {
                             $("#status .status-mp").hide();
                             $("#card_token_id").val(response.id);
                             $("#trunc_card").val(response.trunc_card_number);
                             $("#status").hide();
-                            //$("#status").addClass("msg-success");
-                            //html = "Dados validados.";
                         }else{
                             
                             $.each(response.cause, function(p, e){
-                                
+
                                 //mapea os erros
                                 switch (e.code) {
                                     case "011":
-                                        html += "Ocorreu um erro. Por favor, atualize a pagina. </br>";
-                                        break;
                                     case "E301":
-                                        html += "Numero do Cartão inválido. </br>";
-                                        break;
-                                    
                                     case "E302":
-                                        html += "Código de Segurança inválido. </br>";
-                                        break;
-                                    
                                     case "316":
-                                        html += "Nome do titular do cartão inválido. </br>";
-                                        break;
                                     case "324":
-                                        html += "CPF inválido. </br>";
-                                        break;
                                     case "325":
-                                        html += "Mês inválido. </br>";
-                                        break;
                                     case "326":
-                                        html += "Ano inválido. </br>";
+                                        $(".error-" + e.code).show();
                                         break;
                                     default:
-                                        html += "Dados incorretos, valide os dados. Por favor. <br/>"
-                        
+                                        $(".error-other").show();
                                 }
+                                
+                                showError();
                             });
                             
-                            
-                            $("#status").addClass("msg-error");
-                            $("#status .text-mp").html(html);
-                            $("#card_token_id").val("");
                         }
                         
-                        //esconde loading
+                        //hide loading
+                        $("#status .text-mp .msg-loading").hide();
                         $("#status .loading-mp").hide();
                         
                     });
+                    
+                    
                     
                 }
             }
             
             
-            function showError(msg) {
+            function showError() {
                 $("#status .loading-mp").hide();
                 $("#status").show();
                 $("#status").addClass("msg-error");
-                $("#status .text-mp").html(msg);
                 $("#card_token_id").val("");
             }
             
@@ -220,6 +230,22 @@ function loadFilesMP() {
                     html_options += "<option value='"+installments[i].installments+"'>"+installments[i].installments +" de "+installments[i].share_amount+" ("+installments[i].total_amount+")</option>";
                 };
                 $("#installments").html(html_options);
+            }
+            
+            function showIssuers(status, issuers){
+                var i,options="<option value='-1'>Elige...</option>";
+            
+                for(i=0; issuers && i<issuers.length;i++){
+                    options+="<option value='"+issuers[i].id+"'>"+issuers[i].name +" </option>";
+                }
+                
+                if(issuers.length>0){
+                    $("#issuers").html(options);
+                    $("#issuersOptions").show();
+                }else{
+                    $("#issuers").html("");
+                    $("#issuersOptions").hide();
+                }
             }
 
             function removeClass(){
