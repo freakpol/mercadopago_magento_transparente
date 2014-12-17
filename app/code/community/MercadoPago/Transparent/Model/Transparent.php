@@ -148,6 +148,19 @@ class MercadoPago_Transparent_Model_Transparent extends Mage_Payment_Model_Metho
         return Mage::getModel('sales/order')->loadByIncrementId($incrementId);
     }
     
+    
+    
+    public function getDiscount(){
+	$discount = 0;
+	$totals = Mage::getSingleton('checkout/session')->getQuote()->getTotals();
+	
+	if(isset($totals['discount']) && $totals['discount']->getValue()) {
+	    $discount =  $totals['discount']->getValue();
+	}
+	
+	return $discount;
+    }
+    
     public function postPago(){ 
         
         //seta sdk php mercadopago
@@ -226,6 +239,7 @@ class MercadoPago_Transparent_Model_Transparent extends Mage_Payment_Model_Metho
 	$quote = $this->_getQuote();
         $orderId = $quote->getReservedOrderId();
         $order = $this->_getOrder($orderId);
+    
 	
         $customer = Mage::getSingleton('customer/session')->getCustomer();
         $model = Mage::getModel('catalog/product');
@@ -267,7 +281,7 @@ class MercadoPago_Transparent_Model_Transparent extends Mage_Payment_Model_Metho
         $arr['items'] = array();
         foreach ($order->getAllVisibleItems() as $item) {
 
-            $prod = $model->loadByAttribute('sku', $item->getSku());            
+            $prod = $model->loadByAttribute('sku', $item->getSku());
 
             //get image
 	    try{
@@ -287,7 +301,18 @@ class MercadoPago_Transparent_Model_Transparent extends Mage_Payment_Model_Metho
             );
             
         }
-        
+	
+	
+	//verifica se existe desconto, caso exista adiciona como um item
+	$discount = $this->getDiscount();
+	if($discount != 0){
+	    $arr['items'][] = array(
+                "title" => "Discount by the Store",
+                "description" => "Discount by the Store",
+                "quantity" => (int) 1,
+                "unit_price" => (float) number_format($discount, 2, '.', '')
+            );
+	}
 	
         //pega dados de envio
         if(method_exists($order->getShippingAddress(), "getData")){
@@ -334,7 +359,7 @@ class MercadoPago_Transparent_Model_Transparent extends Mage_Payment_Model_Metho
         );
         
 	//define a url de notificacao 
-	$arr['notification_url'] = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_LINK,true) . "mercadopago_transparent/notification";
+	$arr['notification_url'] = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_LINK,true) . "mercadopago_standard/notification";
 	
 	//pega o email e o nome do usuario guest
 	if($arr['payer_email'] == "" && $arr['customer']['email'] == ""){
@@ -349,22 +374,6 @@ class MercadoPago_Transparent_Model_Transparent extends Mage_Payment_Model_Metho
 	
 	return $arr;
 	
-    }
-    
-    public function getPayment($payment_id){
-	$model = $this;
-	$this->client_id = Mage::getStoreConfig('payment/mercadopago_configuration/client_id');
-        $this->client_secret = Mage::getStoreConfig('payment/mercadopago_configuration/client_secret');
-        $mp = new MP($this->client_id, $this->client_secret);
-	return $mp->get_payment($payment_id);
-    }
-    
-    public function getMerchantOrder($merchant_order_id){
-	$model = $this;
-	$this->client_id = Mage::getStoreConfig('payment/mercadopago_configuration/client_id');
-	$this->client_secret = Mage::getStoreConfig('payment/mercadopago_configuration/client_secret');
-        $mp = new MP($this->client_id, $this->client_secret);
-	return $mp->get_merchant_order($merchant_order_id);
     }
     
 }

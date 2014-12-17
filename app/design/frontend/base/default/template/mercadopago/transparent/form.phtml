@@ -90,8 +90,8 @@
             <li id="issuersOptions" style="display: none;">
                 <label for="<?php echo $_code ?>_issuers" class="required"><em>*</em><?php echo $this->__('Banks'); ?></label>
                 <div class="input-box">
-                    <select name="payment[issuers]" id="issuers" data-checkout="issuers" id="<?php echo $_code ?>_issuers" class="input-text">
-                    </select>
+                    <div id="issuers">
+                    </div>
                 </div>
             </li>
             
@@ -99,7 +99,7 @@
             <li>
                 <div class="box-input">
                     <label for="<?php echo $_code ?>_installments" class="required"><em>*</em><?php echo $this->__('Installments'); ?></label>
-                    <div class="input-box">
+                    <div class="input-box box-installments">
                         <select name="payment[installments]" id="installments" data-checkout="installments" id="<?php echo $_code ?>_installments" class="input-text required-entry validate-digits">
                             <option><?php echo $this->__('Enter the card number'); ?></option>
                         </select>
@@ -122,7 +122,6 @@
                             <p class="msg-status error-325"><?php echo $this->__('Month is invalid.'); ?></p>
                             <p class="msg-status error-326"><?php echo $this->__('Year is invalid.'); ?></p>
                             <p class="msg-status error-other"><?php echo $this->__('Please validate your data.'); ?></p>
-                            
                         </div>
                     </div>
                 </div>
@@ -134,6 +133,12 @@
                 <?php if($this->getMethod()->getConfigData('banner_checkout') != ""): ?>
                     <img src="<?php echo $this->getMethod()->getConfigData('banner_checkout'); ?>"  class="banner_checkout_mp"/>
                 <?php endif;?>
+                
+                <div style="display: none;">
+                    <span id="mercadopago-text-currency"><?php echo $this->__('$'); ?></span>
+                    <span id="mercadopago-text-choice"><?php echo $this->__('Choice'); ?></span>
+                    <span id="mercadopago-text-default-issuer"><?php echo $this->__('Default issuer'); ?></span>
+                </div>
             </li>
         </ul>
 

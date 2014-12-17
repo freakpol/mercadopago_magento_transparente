@@ -114,3 +114,7 @@
 "<br/> Status Detail: %s", "<br/> Detalhe do Status: %s"
 
 "Order # %s in store %s","Pedido # %s realizado na loja %s"
+
+"$", "R$"
+"Choice", "Escolha"
+"Default issuer", "Qualquer Banco"

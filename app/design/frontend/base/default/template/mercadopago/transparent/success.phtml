@@ -109,7 +109,7 @@
                     break;
                 
                 case "rejected":
-                    $title = $this->__('O seu pagamento não foi processado.');
+                    $title = $this->__('We could not process your payment.');
                     
                     switch ($payment->getAdditionalInformation('status_detail')){
                         case "cc_rejected_bad_filled_card_number":
