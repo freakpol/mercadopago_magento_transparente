@@ -13,29 +13,20 @@
 * @copyright  	Copyright (c) MercadoPago [http://www.mercadopago.com]
 * @license    	http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
 */
-
-require_once(Mage::getBaseDir('lib') . '/mercadopago/mercadopago.php');
-
-class MercadoPago_Standard_Model_Source_PaymentMethods extends Mage_Payment_Model_Method_Abstract{
+ 
+class MercadoPago_Standard_Model_Source_Country extends Mage_Payment_Model_Method_Abstract{
 	
     public function toOptionArray (){
+
+	$country = array();
+	$country[] = array('value' => "mla", 'label'=>Mage::helper('adminhtml')->__("Argentina"));
+	$country[] = array('value' => "mlb", 'label'=>Mage::helper('adminhtml')->__("Brasil"));
+	$country[] = array('value' => "mco", 'label'=>Mage::helper('adminhtml')->__("Colombia"));
+	$country[] = array('value' => "mlm", 'label'=>Mage::helper('adminhtml')->__("Mexico"));
 	
-	$country = strtoupper(Mage::getStoreConfig('payment/mercadopago_configuration/country'));
-	$methods = array();
-	//adiciona um valor vazio caso não queria excluir nada
-	$methods[] = array("value" => "", "label" => "");
-        $response = MPRestClient::get("/sites/" . $country . "/payment_methods");
-        $response = $response['response'];
-        
-        foreach($response as $m){
-            if ( $m['id'] != 'account_money' ) {
-                $methods[] = array(
-                    'value' => $m['id'],
-                    'label'=>Mage::helper('adminhtml')->__($m['name'])
-                );
-            }
-        }
-        
-        return $methods;
+	//force order by key
+	ksort($country);
+	return $country;
+    
     }
 }
