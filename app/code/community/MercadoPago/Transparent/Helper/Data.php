@@ -18,5 +18,19 @@
 
 
 class MercadoPago_Transparent_Helper_Data extends Mage_Payment_Helper_Data{
-    
+
+    /**
+     * Get the assigned state of an order status
+     *
+     * @param string order_status
+     */
+    public function getStateByStatus($status)
+    {
+        $item = Mage::getResourceModel('sales/order_status_collection')
+            ->joinStates()
+            ->addFieldToFilter('main_table.status', $status)
+            ->getFirstItem();
+
+        return $item->getState();
+    }
 }

@@ -127,7 +127,9 @@ class MercadoPago_Standard_NotificationController extends Mage_Core_Controller_F
 		$message .= Mage::helper('mercadopago_transparent')->__('<br/> Payment id: %s', $payment['id']);
 		$message .= Mage::helper('mercadopago_transparent')->__('<br/> Status: %s', $payment['status']);
 		$message .= Mage::helper('mercadopago_transparent')->__('<br/> Status Detail: %s', $payment['status_detail']);
-		
+
+		$state = Mage::helper('mercadopago_transparent')->getStateByStatus($status);
+		$order->setState($state);
 		$order->addStatusToHistory($status,$message, true);
 		$order->sendOrderUpdateEmail(true, $message);
 			
@@ -158,7 +160,9 @@ class MercadoPago_Standard_NotificationController extends Mage_Core_Controller_F
 			
 			$message .= "<br /> Merchant Order: " . $merchant_order['id'];
 			$message .= "<br /> Status: " . $merchant_order['status'];
-			
+
+			$state = Mage::helper('mercadopago_transparent')->getStateByStatus($status);
+			$order->setState($state);
 			$order->addStatusToHistory($status,$message);
 			$order->save();
 			echo $message;
